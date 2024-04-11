@@ -74,42 +74,52 @@
               <button type="submit" style="padding: 10px 20px; margin-left: 10px;">Search</button>
             </div>
             <div class="page-view-counter" style="margin-top: 20px; font-size: 16px;">
-              Page Views: <span id="pageViews">123</span> <!-- Dynamically update this count based on your logic -->
+               Discovered by <span id="viewerCount"></span> enthusiasts!
             </div>
               <!-- <button onclick="resetCounter()">Reset Counter</button> -->
 
 <script>
   // Function to update the display of the page view counter
-  function updateDisplay(count) {
-    document.getElementById('pageViews').textContent = count;
+// Function to check and increment the viewer counter if it's a new visitor
+function updateDisplay(count) {
+  document.getElementById('viewerCount').textContent = count;
+}
+function incrementViewerCounter() {
+  // Check if the visitor has already been counted
+  if (!localStorage.getItem('hasVisited')) {
+      // Mark this visitor as counted
+      localStorage.setItem('hasVisited', 'true');
+      
+      // Retrieve the current count of unique viewers, or start at 0 if not found
+      const currentCount = parseInt(localStorage.getItem('viewerCount') || '0', 10);
+      
+      // Increment the count
+      const newCount = currentCount + 1;
+      
+      // Store the new count in localStorage
+      localStorage.setItem('viewerCount', newCount.toString());
+      
+      // Update the display
+      updateDisplay(newCount);
+  } else {
+      // Visitor has already been counted, just update the display with the current count
+      const currentCount = parseInt(localStorage.getItem('viewerCount') || '0', 10);
+      updateDisplay(currentCount);
   }
+}
 
-  // Function to increment the view counter
-  function incrementCounter() {
-    // Retrieve the current count from localStorage, or start at 0 if not found
-    const currentCount = parseInt(localStorage.getItem('pageViews') || '0', 10);
-    
-    // Increment the count
-    const newCount = currentCount + 1;
-    
-    // Store the new count in localStorage
-    localStorage.setItem('pageViews', newCount.toString());
-    
-    // Update the display
-    updateDisplay(newCount);
-  }
-
-  // Function to reset the view counter
-  function resetCounter() {
-    // Reset the counter in localStorage
-    localStorage.setItem('pageViews', '0');
-    
-    // Update the display
-    updateDisplay(0);
-  }
+// Function to reset the viewer counter
+function resetViewerCounter() {
+  // Reset the counter in localStorage
+  localStorage.setItem('viewerCount', '0');
+  localStorage.removeItem('hasVisited'); // Also remove the flag indicating a visit
+  
+  // Update the display
+  updateDisplay(0);
+}
 
   // On page load, increment the counter
-  document.addEventListener('DOMContentLoaded', incrementCounter);
+  document.addEventListener('DOMContentLoaded', incrementViewerCounter);
 </script>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
