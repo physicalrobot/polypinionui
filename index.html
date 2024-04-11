@@ -84,8 +84,10 @@
 function updateDisplay(count) {
   document.getElementById('viewerCount').textContent = count;
 }
+
+
 function incrementViewerCounter() {
-  // Check if the visitor has already been counted
+    
   if (!localStorage.getItem('hasVisited')) {
       // Mark this visitor as counted
       localStorage.setItem('hasVisited', 'true');
@@ -106,7 +108,18 @@ function incrementViewerCounter() {
       const currentCount = parseInt(localStorage.getItem('viewerCount') || '0', 10);
       updateDisplay(currentCount);
   }
+
 }
+
+//View count instead of Viewers:
+
+//function incrementViewerCounter() {
+//  const currentCount = parseInt(localStorage.getItem('viewerCount') || '0', 10);
+//  const newCount = currentCount + 1;
+//  localStorage.setItem('viewerCount', newCount.toString());
+//  updateDisplay(newCount);
+//}
+
 
 // Function to reset the viewer counter
 function resetViewerCounter() {
